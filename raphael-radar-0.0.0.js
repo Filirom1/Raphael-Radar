@@ -133,7 +133,12 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_brea
     return st;
 };
 
-function radar( id, w, h, score, labels, label_break, ids, max){
+function radar( id, w, h, score, labels, ids, max, options){
+  if (options === undefined) {
+    options = {};
+  }
+  options = jQuery.extend({label_break: 3}, options)
+
   var center_x = w / 2;
   var center_y = h / 2;
   var shorter  = (w < h) ? w : h;
@@ -142,7 +147,7 @@ function radar( id, w, h, score, labels, label_break, ids, max){
 
   var paper = Raphael( id, w, h);
   var bg    = paper.rect(0, 0, w, h, 0);
-  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, label_break, ids, max);
+  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, options.label_break, ids, max);
   chart.rotate(0, center_x, center_y);
 
   bg.attr({
