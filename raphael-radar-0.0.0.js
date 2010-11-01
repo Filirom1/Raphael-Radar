@@ -1,4 +1,4 @@
-Raphael.fn.polygon = function (params, points)
+Raphael.fn.polygon = function (points)
 {
     // Initial parameter makes an effect... mysterious...
     var path_string = "M 100 100";
@@ -10,16 +10,7 @@ Raphael.fn.polygon = function (params, points)
       if( i == points.length - 1) s += "L " + points[0][0] + " " + points[0][1] + " ";
       path_string += s;
     }
-    var poly = this.path(path_string);
-    poly.attr(params);
-
-    /* Why this doesnt work?
-    for( var pos in points){
-      console.log(pos);
-    }
-    */
-
-    return poly;
+    return this.path(path_string);
 };
 
 function lined_on( origin, base, bias)
@@ -45,7 +36,7 @@ function break_per( n, s)
   return s.slice(0,n) + "\n" + break_per( n, s.slice(n));
 };
 
-Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, ids, max)
+Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, ids, max)
 {
     // Saves a point of center
     var cx = x;
@@ -86,7 +77,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, id
     st.push(value);
 
     // Draws a frame of the chart and sets styles it
-    var poly = this.polygon(params, points);
+    var poly = this.polygon(points);
     poly.attr("stroke", "#555");
     poly.attr("stroke-width", "3");
     st.push(poly);
@@ -143,7 +134,7 @@ function radar( id, w, h, score, labels, ids, max){
 
   var paper = Raphael( id, w, h);
   var bg    = paper.rect(0, 0, w, h, 0);
-  var chart = paper.radarchart( center_x, center_y, r, n, 0, score, labels, ids, max);
+  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, ids, max);
   chart.rotate(0, center_x, center_y);
 
   bg.attr("gradient", "270-#fff-#fff:40-#ddd");
