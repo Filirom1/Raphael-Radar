@@ -1,8 +1,6 @@
 
-Raphael Radar 0.0.0
+Raphael Radar
 ===========================
-
-LAST UPDATED: 2010-03-07
 
 What is this?
 --------------
