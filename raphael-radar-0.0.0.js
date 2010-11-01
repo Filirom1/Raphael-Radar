@@ -18,13 +18,13 @@ function lined_on( origin, base, bias)
   return origin + (base - origin) * bias;
 };
 
-function path_string( cx, cy, points, score)
+function path_string( cx, cy, points, scores)
 {
   vertex = [];
   for( var i = 0; i < points.length; i++){
     var s = "";
-    var x = lined_on( cx, points[i][0], score[i]);
-    var y = lined_on( cy, points[i][1], score[i]);
+    var x = lined_on( cx, points[i][0], scores[i]);
+    var y = lined_on( cy, points[i][1], scores[i]);
     vertex.push( "" + x + " " + y);
   }
   return "M " + vertex.join("L ") + "L " + vertex[0];
@@ -36,7 +36,7 @@ function break_per( n, s)
   return s.slice(0,n) + "\n" + break_per( n, s.slice(n));
 };
 
-Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_break, ids, max)
+Raphael.fn.radarchart = function (x, y, radius, sides, scores, labels, label_break, ids, max)
 {
     // Saves a point of center
     var cx = x;
@@ -69,7 +69,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_brea
     }
 
     // Draws chart
-    var value = this.path( path_string( cx, cy, points, score));
+    var value = this.path( path_string( cx, cy, points, scores));
     value.attr({
       "fill": "#f90",
       "fill-opacity": "0.8",
@@ -106,9 +106,9 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_brea
           var y = lined_on( cy, points[i][1], j * 0.2);
           var cl = this.circle(x,y,3.5).attr({'fill':'#888','stroke-width':'0'}).mousedown(
             function(){
-              score[this.axis] = this.score;
+              scores[this.axis] = this.score;
               $('#' + this.related_id).val(this.score * max);
-              value.animate({path: path_string( cx, cy, points, score)},200);
+              value.animate({path: path_string( cx, cy, points, scores)},200);
             }
           ).mouseover(
             function(){
@@ -133,7 +133,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_brea
     return st;
 };
 
-function radar( id, w, h, score, labels, ids, max, options){
+function radar( id, w, h, scores, labels, ids, max, options){
   if (options === undefined) {
     options = {};
   }
@@ -143,11 +143,11 @@ function radar( id, w, h, score, labels, ids, max, options){
   var center_y = h / 2;
   var shorter  = (w < h) ? w : h;
   var r = shorter / Math.PI;
-  var n = score.length;
+  var n = scores.length;
 
   var paper = Raphael( id, w, h);
   var bg    = paper.rect(0, 0, w, h, 0);
-  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, options.label_break, ids, max);
+  var chart = paper.radarchart( center_x, center_y, r, n, scores, labels, options.label_break, ids, max);
   chart.rotate(0, center_x, center_y);
 
   bg.attr({
