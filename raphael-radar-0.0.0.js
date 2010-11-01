@@ -70,16 +70,20 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, ids, max)
 
     // Draws chart
     var value = this.path( path_string( cx, cy, points, score));
-    value.attr("fill","#f90");
-    value.attr("fill-opacity","0.8");
-    value.attr("stroke-width", "2");
-    value.attr("stroke", "#a64");
+    value.attr({
+      "fill": "#f90",
+      "fill-opacity": "0.8",
+      "stroke-width": "2",
+      "stroke": "#a64"
+    });
     st.push(value);
 
     // Draws a frame of the chart and sets styles it
     var poly = this.polygon(points);
-    poly.attr("stroke", "#555");
-    poly.attr("stroke-width", "3");
+    poly.attr({
+      "stroke": "#555",
+      "stroke-width": "3"
+    });
     st.push(poly);
 
     if(labels){
@@ -137,6 +141,7 @@ function radar( id, w, h, score, labels, ids, max){
   var chart = paper.radarchart( center_x, center_y, r, n, score, labels, ids, max);
   chart.rotate(0, center_x, center_y);
 
-  bg.attr("gradient", "270-#fff-#fff:40-#ddd");
-  bg.attr("stroke-width", "0");
+  bg.attr({
+    "gradient": "270-#fff-#fff:40-#ddd",
+    "stroke-width": "0"});
 };
