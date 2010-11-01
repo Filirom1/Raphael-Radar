@@ -1,6 +1,7 @@
 Pending Release
 --------------------------
 * Fix label display, which was broken (Ben Woosley)
+* Add a label_break paramter to radar(), enabling user to set label break length (Ben Woosley)
 
 0.0.0 - 2010-03-07
 --------------------------

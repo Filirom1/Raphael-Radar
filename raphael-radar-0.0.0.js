@@ -36,7 +36,7 @@ function break_per( n, s)
   return s.slice(0,n) + "\n" + break_per( n, s.slice(n));
 };
 
-Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, ids, max)
+Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, label_break, ids, max)
 {
     // Saves a point of center
     var cx = x;
@@ -90,7 +90,11 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, ids, max)
       for( var i = 0; i < points.length; i++){
         var x = lined_on( cx, points[i][0], 1.3);
         var y = lined_on( cy, points[i][1], 1.3);
-        this.text( x, y, break_per( 3, labels[i])).attr({fill:"#555"})
+        var label_text = labels[i];
+        if (label_break) {
+          label_text = break_per(label_break, label_text);
+        }
+        this.text( x, y, label_text).attr({fill:"#555"})
       }
     }
 
@@ -129,7 +133,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, score, labels, ids, max)
     return st;
 };
 
-function radar( id, w, h, score, labels, ids, max){
+function radar( id, w, h, score, labels, label_break, ids, max){
   var center_x = w / 2;
   var center_y = h / 2;
   var shorter  = (w < h) ? w : h;
@@ -138,7 +142,7 @@ function radar( id, w, h, score, labels, ids, max){
 
   var paper = Raphael( id, w, h);
   var bg    = paper.rect(0, 0, w, h, 0);
-  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, ids, max);
+  var chart = paper.radarchart( center_x, center_y, r, n, score, labels, label_break, ids, max);
   chart.rotate(0, center_x, center_y);
 
   bg.attr({
