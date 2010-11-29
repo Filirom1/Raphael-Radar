@@ -155,7 +155,5 @@ function radar( id, w, h, scores, labels, ids, max, options){
   var chart = paper.radarchart( center_x, center_y, r, n, scores, labels, options.label_break, ids, max);
   chart.rotate(0, center_x, center_y);
 
-  bg.attr({
-    "gradient": "270-#fff-#fff:40-#ddd",
-    "stroke-width": "0"});
+  bg.attr("stroke", "#fff");
 };
